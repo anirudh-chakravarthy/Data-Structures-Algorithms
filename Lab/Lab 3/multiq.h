@@ -3,19 +3,23 @@
 #include <stdio.h>
 #include "que.h"
 
+
 struct MultiQ{
 	struct Queue* q;
 	int count;
 };
+
 
 struct Task{
 	int taskid;
 	struct Priority* p;
 };
 
+
 struct Priority {
 	int val;
 };
+
 
 struct MultiQ createMQ(int num); // creates a list of num empty Queues
 
