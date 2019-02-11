@@ -8,9 +8,9 @@ int testCyclic(struct LinkedList ls) {
 	struct node* tmp = ls.head->next;
 	struct node* prev = ls.head;
 
-	struct node* current, tmp2;
-	tmp2 = prev;
-	current= tmp;
+	struct node* curr, tmp2;
+	tmp2 = *prev;
+	curr= tmp;
 	prev = prev->next;
 	tmp = tmp->next;
 	curr->next = tmp2;

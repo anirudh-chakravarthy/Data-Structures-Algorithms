@@ -9,18 +9,17 @@ struct MultiQ loadData(FILE* fp) {
 	int id, pri;
 	struct MultiQ mq = createMQ(10);
 	// printf("CREATED!\n");
-	while(!feof(fp)) {
-		// printf("Reading %d %d\n", id, pri);
-		fscanf(fp, "%d,%d\n", &id, &pri);
+	while(fscanf(fp, "%d,%d\n", &id, &pri) != EOF) {
+		printf("Reading %d %d\n", id, pri);
 		struct Priority* pr = (struct Priority*) malloc(sizeof(struct Priority));
 		pr->val = pri;
-		printf("%d\n", pr->val);
+		// printf("%d\n", pr->val);
 		struct Task* t = (struct Task*) malloc(sizeof(struct Task));
 		t->taskid = id;
 		t->p = pr; 
 		// printf("%d %d\n", t->taskid, t->p->val);
 		mq = addMQ(mq, *t); 
-		// printf("Added!\n");
+		printf("Added! %d\n", sizeMQ(mq));
 	}
 	fclose(fp);
 	return mq;

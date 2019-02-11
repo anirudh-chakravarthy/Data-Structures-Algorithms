@@ -13,24 +13,25 @@ struct MultiQ createMQ(int num) {
 		// printf("HERE!\n");
 		struct Queue tmp = newQ();
 		// printf("HERE2\n");
-		mq[i].q = &tmp;
+		(mq+i)->q = &tmp;
 	}
 	return *mq;
 }
 
 
 struct MultiQ addMQ(struct MultiQ mq, struct Task t) {
-	int pri = (t.p)->val;
+	int pri = t.p->val;
 	struct Element* e = (struct Element*) malloc(sizeof(struct Element));
 	e->task = &t;
-	mq.q[pri-1] = addQ(mq.q[pri-1], *e);
+	struct Queue tmp = addQ(*((&mq + pri-1)->q), *e);
+	(&mq + pri-1)->q = &tmp;
 	return mq;
 }
 
 
 struct Task nextMQ(struct MultiQ mq) {
 	for(int i = mq.count-1; i >= 0; i--) {
-		if(isEmptyQ(mq.q[i]))
+		if(isEmptyQ(*(&mq+i)->q))
 			continue;
 		else {
 			struct Element e = front(mq.q[i]);
@@ -47,10 +48,10 @@ struct Task nextMQ(struct MultiQ mq) {
 
 struct MultiQ delNextMQ(struct MultiQ mq) {
 	for(int i = mq.count-1; i >= 0; i--) {
-		if(isEmptyQ(mq.q[i]))
+		if(isEmptyQ(*(&mq+i)->q))
 			continue;
 		else {
-			delQ(mq.q[i]);
+			*(&mq+i)->q = delQ(*(&mq+i)->q);
 			return mq;
 		}
 	}
@@ -61,7 +62,7 @@ struct MultiQ delNextMQ(struct MultiQ mq) {
 
 bool isEmptyMQ(struct MultiQ mq) {
 	for(int i = 0; i < mq.count; i++) {
-		if(!isEmptyQ(mq.q[i]))
+		if(!isEmptyQ(*(&mq+i)->q))
 			return false;
 	}
 	return true;
@@ -75,11 +76,11 @@ int sizeMQ(struct MultiQ mq) {
 
 int sizeMQbyPriority(struct MultiQ mq, struct Priority p) {
 	int pri = p.val;
-	return lengthQ(mq.q[pri-1]);
+	return lengthQ(*(&mq + pri-1)->q);
 }
 
 
 struct Queue getQueueFromMQ(struct MultiQ mq, struct Priority p) {
 	int pri = p.val;
-	return mq.q[pri-1];
+	return *(&mq+pri-1)->q;
 }

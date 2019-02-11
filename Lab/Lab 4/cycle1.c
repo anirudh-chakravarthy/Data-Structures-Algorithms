@@ -4,8 +4,8 @@
 
 
 int testCyclic(struct LinkedList ls) {
-	struct node* hare, tort;
-	hare = tort = ls.head;
+	struct node* hare = ls.head;
+	struct node* tort = ls.head;
 
 	// empty list
 	if(hare == NULL)
@@ -24,5 +24,3 @@ int testCyclic(struct LinkedList ls) {
 	}
 	return 0;
 }
-
-
