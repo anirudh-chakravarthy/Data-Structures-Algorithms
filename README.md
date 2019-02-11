@@ -8,6 +8,7 @@ TO DO:
 - [x] Lab 2
 - [ ] Lab 3: Testing to be done with the text file
 - [ ] Lab 4: Complete last exercise
+- [x] Lab 5
 
 
 ## Assignment 1
