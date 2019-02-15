@@ -1,4 +1,4 @@
-# Data-Structures-and-Algorithms
+# Data-Structures-Algorithms
 
 ## Labs
 Contains solutions to the Lab Sheets for Data Structures and Algorithms
@@ -18,3 +18,21 @@ TO DO:
 - [ ] Implement growable size arrays
 - [ ] Implement growable number of nodes per linked list
 - [ ] Defragmentation without using an external array
+
+
+## Practice 
+
+- Sorting Algorithms
+    + [x] Insertion Sort
+    + [x] Bubble Sort
+    + [ ] Merge Sort
+    + [x] Heap Sort
+    + [x] Quick Sort (without Hoare Partitioning)
+    + [x] Counting Sort
+
+- Other Algorithms
+    + [x] Span of an array
+
+- Data Structures 
+    + [x] Stack using Linked Lists
+
