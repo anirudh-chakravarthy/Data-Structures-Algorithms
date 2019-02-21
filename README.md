@@ -9,6 +9,7 @@ TO DO:
 - [ ] Lab 3: Testing to be done with the text file
 - [ ] Lab 4: Complete last exercise
 - [x] Lab 5
+- [ ] Lab 6: Complete iterative Merge Sort
 
 
 ## Assignment 1
