@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "que.h"
+#include "multiq.h"
 
 
 struct Queue newQ() {
 	struct Queue* q = (struct Queue*) malloc(sizeof(struct Queue));
+	q->head = NULL;
+	q->tail = NULL;
 	q->count = 0;
-	q->first = NULL;
-	q->last = NULL;
 	return *q;
 }
 
 
 bool isEmptyQ(struct Queue q) {
-	if(q.count == 0) 
+	if (q.count == 0)
 		return true;
 	return false;
 }
@@ -25,46 +27,39 @@ struct Queue delQ(struct Queue q) {
 		printf("Q is empty!\n");
 		return q;
 	}
-	struct node* head = q.first;
-	q.first = head->next;
+
 	q.count--;
-	free(head);
+	printf("%d", q.count);
+	q.head = q.head->next;
 	return q;
 }
 
 
-struct Element front(struct Queue q) {
-	if(q.count == 0) {
-		printf("Q is empty!\n");
-		struct Element* e = (struct Element*) malloc(sizeof(struct Element));
-		e->task = NULL;
-		return *e;
+Task front(struct Queue q) {
+	if(q.head == NULL) {
+		Task t;
+		t.taskid = -1;
+		t.p = NULL;
+		return t;
 	}
-	struct node* head = q.first;
-	return head->ele;
+	return q.head->element;
 }
 
 
-struct Queue addQ(struct Queue q, struct Element e)  {
-	struct node* newnode = (struct node*) malloc(sizeof(struct node));
-	newnode->ele = e;
-	newnode->next = NULL;
+struct Queue addQ(struct Queue q, Task ele) {
+	struct node* newNode = (struct node*) malloc(sizeof(struct node));
+	newNode->element = ele;
+	newNode->next = NULL;
 
-	if(lengthQ(q) == 0) {
-		q.first = newnode;
-		q.last = newnode;
-		q.count++;
-		return q;
-	}
+	if(q.count == 0)
+		q.head = newNode;
 
-	struct node* tail = q.last;
-	tail->next = newnode;
-	q.last = newnode;
+	q.tail = newNode;
 	q.count++;
 	return q;
 }
 
 
 int lengthQ(struct Queue q) {
-	return q.count;
+	return q.count; 
 }

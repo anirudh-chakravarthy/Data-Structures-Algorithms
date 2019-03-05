@@ -6,10 +6,11 @@ Contains solutions to the Lab Sheets for Data Structures and Algorithms
 TO DO:
 - [x] Lab 1
 - [x] Lab 2
-- [ ] Lab 3: Testing to be done with the text file
+- [x] Lab 3
 - [ ] Lab 4: Complete last exercise
 - [x] Lab 5
 - [ ] Lab 6: Complete iterative Merge Sort
+- [x] Lab 7
 
 
 ## Assignment 1

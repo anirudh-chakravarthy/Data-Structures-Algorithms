@@ -1,44 +1,41 @@
-#ifndef _MULTIQ
-#define _MULTIQ
-#include <stdio.h>
+#ifndef _MQ
+#define _MQ
+
 #include "que.h"
+#include <stdbool.h>
 
 
-struct MultiQ{
+typedef struct {
+	int val;
+} Priority;
+
+
+typedef struct {
+	int taskid;
+	Priority* p;
+} Task;
+
+
+typedef struct {
 	struct Queue* q;
 	int count;
-};
+} MultiQ;
 
 
-struct Task{
-	int taskid;
-	struct Priority* p;
-};
+MultiQ createMQ(int num);
 
+MultiQ addMQ(MultiQ mq, Task t);
 
-struct Priority {
-	int val;
-};
+Task nextMQ(MultiQ mq);
 
+MultiQ delNextMQ(MultiQ mq);
 
-struct MultiQ createMQ(int num); // creates a list of num empty Queues
+bool isEmptyMQ(MultiQ mq);
 
-struct MultiQ addMQ(struct MultiQ mq, struct Task t); // adds t to the Q
+int sizeMQ(MultiQ mq);
 
-struct Task nextMQ(struct MultiQ mq);
-/* returns the front of the non-empty Q with highest priority */
+int sizeMQbyPriority(MultiQ mq, Priority p);
 
-struct MultiQ delNextMQ(struct MultiQ mq);
-/* deletes the front of the non-empty Q in mq with the highest priority;
-	returns the modified mq */
-
-bool isEmptyMQ(struct MultiQ mq); // tests whether all the Qs in mq are empty
-
-int sizeMQ(struct MultiQ mq); // returns the total number of items in mq
-
-int sizeMQbyPriority(struct MultiQ mq, struct Priority p); 
-// returns number of items in mq with priority p
-
-struct Queue getQueueFromMQ(struct MultiQ mq, struct Priority p); // returns the Q with priority p
+struct Queue getQfromMQ(MultiQ mq, Priority p);
 
 #endif
