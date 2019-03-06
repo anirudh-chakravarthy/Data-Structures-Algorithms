@@ -58,7 +58,6 @@ struct Queue addQ(struct Queue q, Task ele) {
 		return q;
 	}
 
-	q.tail->next = newNode;
 	q.tail = newNode;
 	q.count++;
 	return q;
