@@ -54,6 +54,7 @@ struct Queue addQ(struct Queue q, Task ele) {
 	if(q.count == 0)
 		q.head = newNode;
 
+	q.tail->next = newNode;
 	q.tail = newNode;
 	q.count++;
 	return q;
