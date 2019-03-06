@@ -29,7 +29,7 @@ TO DO:
     + [x] Bubble Sort
     + [ ] Merge Sort
     + [x] Heap Sort
-    + [x] Quick Sort (without Hoare Partitioning)
+    + [x] Quick Sort (with Hoare Partitioning)
     + [x] Counting Sort
 
 - Other Algorithms

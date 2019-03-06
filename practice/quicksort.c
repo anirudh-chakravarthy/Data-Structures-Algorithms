@@ -25,29 +25,33 @@ int partition(int* arr, int start, int pivotIndex) {
 
 int hoare_partition(int* arr, int start, int pivotIndex) {
 	int pivot = arr[pivotIndex];
-	int i = start;
-	int j = pivotIndex;
+	int i = start - 1;
+	int j = pivotIndex + 1;
 
-	while(1) {
+	while (1) {
 		
-		while(arr[j] >= pivot)
-			j--;
-
-		while(arr[i] <= pivot)
-			i++;
-
-		if(i < j)
-			swap(arr, i, j);
-		
-		else 
-			return j;
-	}
-}
+        // Find leftmost element >= pivot 
+        do { 
+            i++; 
+        } while (arr[i] < pivot); 
+   
+        // Find rightmost element <= pivot 
+        do { 
+            j--; 
+        } while (arr[j] > pivot); 
+   
+        // If two pointers meet. 
+        if (i >= j) 
+            return j; 
+   
+        swap(arr, i , j); 
+    } 
+} 
 
 
 void quickSort(int* arr, int start, int pivotIndex) {
 	if(start < pivotIndex) {
-		int mid = partition(arr, start, pivotIndex);
+		int mid = hoare_partition(arr, start, pivotIndex);
 		quickSort(arr, start, mid - 1);
 		quickSort(arr, mid, pivotIndex);
 	}
