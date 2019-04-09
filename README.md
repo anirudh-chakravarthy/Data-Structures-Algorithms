@@ -12,6 +12,8 @@ TO DO:
 - [ ] Lab 6: Complete iterative Merge Sort
 - [x] Lab 7
 - [ ] Lab 9
+- [ ] Lab 10
+- [ ] Lab 11
 
 
 ## Assignment 1

@@ -1,0 +1,11 @@
+1 10
+swd.bits-pilani.ac.in 192.168.1.1
+google.co.in 192.168.1.2
+local.facebook.com 192.168.25.37
+admin.nalanda.bits-pilani.ac.in 168.169.245.263
+personal.data.yahoo.com 45.5.0.2
+office.data.yahoo.com 45.5.0.25
+student.csis.bits-pilani.ac.in 36.32.33.33
+faculty.csis.bits-pilani.ac.in 37.36.33.25
+a-b.c-d.e-f.g-h 125.145.15.25
+a-b.c-d.e-f.g-h 125.145.15.26
