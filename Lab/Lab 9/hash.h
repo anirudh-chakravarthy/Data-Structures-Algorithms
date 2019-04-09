@@ -1,11 +1,11 @@
 #ifndef _HASH
 #define _HASH
 
-int hashTable[50000];
 
+int hashFunction(char* string, int baseNumber, int tableSize);
 
-int hash(char* string, int baseNumber, int tableSize);
+int collisionCount(char** strings, int baseNumber, int tableSize, int num_strings);
 
-int collisionCount(char** stringArray, int numberOfStrings, int baseNumber, int tableSize);
+char** parser(FILE* f);
 
 #endif
