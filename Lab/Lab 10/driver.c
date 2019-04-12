@@ -3,16 +3,19 @@
 
 #include "tree.h"
 
-
 int main() {
 	struct node* root = NULL;
-	root = insert(root, 3);
-	root = insert(root, 2);
-	root = insert(root, 4);
-	
-//	printf("%d\n", find(root, 2)); 
-//	printf("%d\n", find(root, 5)); 
 
-	root = delete(root, 2);
+	root = insert(root, 3);
+	root = insert(root, 4);
+	root = insert(root, 2);
+	inOrderTraversal(root);
+
+	struct node* tmp = find(root, 3);
+	printf("Found: %d\n", tmp->value);
+	// tmp = find(root, 5);
+	// printf("%d\n", tmp->value);
+
+	root = delete(root, 3);
 	inOrderTraversal(root);
 }
