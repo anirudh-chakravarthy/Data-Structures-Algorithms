@@ -2,20 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "dns.h"
+#include "tree.h"
 
 
 int main() {
-	int choice;
 	FILE* f = fopen("input.txt", "r");
-	fscanf(f, "%d", &choice);
-	// printf("%d\n", choice);
+	struct node* root = createTree();
+	
+	root = readData(f, root);
+	printf("\n");
 
-	if(choice == 1) {
-		int num_records;
-		fgetc(f); // remove spacebar
-		fscanf(f, "%d\n", &num_records);
-		// printf("%d\n", num_records);
-		tree* t = readData(f, num_records);
-	}
+	root = readData(f, root);
+	root = readData(f, root);
+	root = readData(f, root);
+	root = readData(f, root);
+
+	// Check if program terminated by file input
+	printf("Program completed\n");
 }

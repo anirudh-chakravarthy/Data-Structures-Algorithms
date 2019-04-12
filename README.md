@@ -13,7 +13,7 @@ TO DO:
 - [x] Lab 7
 - [x] Lab 9
 - [ ] Lab 10
-- [ ] Lab 11
+- [x] Lab 11
 
 
 ## Assignment 1

@@ -29,7 +29,7 @@ table* insert(table* t, char** books, char* string, int index) {
 		newNode->next = NULL;
 		newNode->count = 1;
 
-		t->head[index] = newNode;
+		t->head[hashValue] = newNode;
 		t->elementCount++;
 		printf("\tInserted %s\n\n", string);
 		return t;

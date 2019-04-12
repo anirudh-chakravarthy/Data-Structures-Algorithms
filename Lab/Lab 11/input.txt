@@ -9,3 +9,7 @@ student.csis.bits-pilani.ac.in 36.32.33.33
 faculty.csis.bits-pilani.ac.in 37.36.33.25
 a-b.c-d.e-f.g-h 125.145.15.25
 a-b.c-d.e-f.g-h 125.145.15.26
+2 google.co.in
+2 facebook.co.in
+2 twitter.com
+-1
