@@ -12,6 +12,11 @@ void printList(Element ls[], int size) {
 }
 
 
+int min(int a, int b) {
+	return (a > b) ? b:a;
+}
+
+
 void merge(Element l1[], int size1, Element l2[], int size2, Element ls[]) {
 	int i = 0, j = 0;
 	int index = 0;
@@ -53,7 +58,25 @@ void merge(Element l1[], int size1, Element l2[], int size2, Element ls[]) {
 
 
 void mergeSort(Element list[], int start, int end) {
-}
+	int size = end - start + 1;
+	Element* result = (Element*) malloc(sizeof(Element) * size);
+
+	for(int currentSize = 1; currentSize <= size-1; currentSize *= 2) {
+		for(int left = 0; left < size - 1; left += 2 * currentSize) {
+			int mid = left + currentSize - 1;
+			int end = min(size-1, mid+currentSize);
+			int size1 = mid - left + 1;
+			int size2 = end - mid;
+			
+			merge(list+left, size1, list+mid+1, size2, result);
+		}
+	}
+
+	for(int i = 0; i < size; i++)
+		list[i] = result[i];
+
+	free(result);
+}	
 
 
 int main() {

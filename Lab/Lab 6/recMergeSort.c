@@ -67,9 +67,8 @@ void mergeSort(Element list[], int start, int end) {
 		Element* result = (Element*) malloc(sizeof(Element) * (size1+size2));
 		merge(list+start, size1, list+mid+1, size2, result);
 
-		for(int i = 0; i < size1+size2; i++) {
+		for(int i = 0; i < size1+size2; i++) 
 			list[i+start] = result[i];
-		}
 
 		free(result);
 	}	
