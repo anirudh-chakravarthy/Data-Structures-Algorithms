@@ -19,8 +19,8 @@ typedef struct {
 // create an empty table
 Hashtable* createTable(int tableSize);
 
-// insert strings into table t if not already present
-Hashtable* insert(Hashtable* t, char** book, int index, char** strings, int num_strings);
+// insert string into table t if not already present
+Hashtable* insert(Hashtable* t, char** book, int index);
 
 // insert all strings from book into table t
 int insertAll(Hashtable* t, char** book);

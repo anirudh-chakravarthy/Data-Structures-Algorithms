@@ -19,41 +19,39 @@ Hashtable* createTable(int tableSize) {
 }
 
 
-Hashtable* insert(Hashtable* t, char** book, int index, char** strings, int num_strings) {
+Hashtable* insert(Hashtable* t, char** book, int index) {
 	int insertionCost = 0;
+	int hashValue = hashFunction(book[index], 5023, 5000);
+	struct node* tmp = t->head[hashValue];
 
-	for(int i = 0; i < num_strings; i++) {
-		int hashValue = hashFunction(strings[i], 5023, 5000);
-		struct node* tmp = t->head[hashValue];
-
-		while(tmp != NULL) {
-			if(strcmp(book[tmp->key], book[index]) == 0) {
-				tmp->count++;
-				t->insertionCost += insertionCost;
-				printf("Found: %s\n", book[index]);
-				return t;
-			}
-			insertionCost++;
-
-			// to store last node
-			if(tmp->next == NULL)
-				break;
-			tmp = tmp->next;
+	
+	while(tmp != NULL) {
+		if(strcmp(book[tmp->key], book[index]) == 0) {
+			tmp->count++;
+			t->insertionCost += insertionCost;
+			printf("Found: %s\n", book[index]);
+			return t;
 		}
+		insertionCost++;
 
-		struct node* newNode = (struct node*) malloc(sizeof(struct node));
-		newNode->key = index;
-		newNode->count = 1;
-		newNode->next = NULL;
-		t->elementCount++;
-		printf("Inserted: %s\n", book[index]);
-
-		if(t->head[hashValue] == NULL)
-			t->head[hashValue] = newNode;
-
-		else
-			tmp->next = newNode;
+		// to store last node
+		if(tmp->next == NULL)
+			break;
+		tmp = tmp->next;
 	}
+
+	struct node* newNode = (struct node*) malloc(sizeof(struct node));
+	newNode->key = index;
+	newNode->count = 1;
+	newNode->next = NULL;
+	t->elementCount++;
+	printf("Inserted: %s\n", book[index]);
+
+	if(t->head[hashValue] == NULL)
+		t->head[hashValue] = newNode;
+
+	else
+		tmp->next = newNode;
 
 	t->insertionCost += insertionCost;
 	return t;
@@ -63,10 +61,7 @@ Hashtable* insert(Hashtable* t, char** book, int index, char** strings, int num_
 int insertAll(Hashtable* t, char** book) {
 	int insertionCost = t->insertionCost;
 	for(int i = 0; i < 22698; i++) {
-		char** strings = (char**) malloc(sizeof(char*));
-		strings[0] = (char*) malloc(sizeof(char) * strlen((book[i]+1)));
-		strcpy(strings[0], book[i]);
-		t = insert(t, book, i, strings, 1);
+		t = insert(t, book, i);
 	}
 	return t->insertionCost - insertionCost;
 }
