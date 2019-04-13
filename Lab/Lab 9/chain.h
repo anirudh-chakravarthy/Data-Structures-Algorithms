@@ -2,37 +2,37 @@
 #define _CHAIN
 
 
-struct node {
+struct node{
 	int key;
-	struct node* next;
 	int count;
+	struct node* next;
 };
-
 
 typedef struct {
 	struct node** head;
 	int elementCount;
 	int insertionCost;
 	int queryingCost;
-} table;
+} Hashtable;
 
 
-// create new Table
-table* createTable();
+// create an empty table
+Hashtable* createTable(int tableSize);
 
-// insert string into table t
-table* insert(table* t, char** books, char* string, int index);
+// insert strings into table t if not already present
+Hashtable* insert(Hashtable* t, char** book, int index, char** strings, int num_strings);
 
-// enter strings in books into t
-int insertAll(table* t, char** books, int num_strings);
+// insert all strings from book into table t
+int insertAll(Hashtable* t, char** book);
 
-// search for string in table t
-struct node* lookup(table* t, char** books, char* string);
+// search for string
+struct node* lookup(Hashtable* t, char** book, char* string);
 
-// search for percent * num_strings of strings in table t
-int lookupAll(table* t, char** books, char** strings, int num_strings, double percent);
+// search for m*100% of strings in table t
+int lookupAll(Hashtable* t, char** book, char** strings, int num_strings, double m);
 
-// delete occurrence of words in a file from the table
-table* cleanup(FILE* f, table* t, char** books);
+// delete words from the table
+Hashtable* cleanup(FILE* f, Hashtable* t, char** book);
+
 
 #endif

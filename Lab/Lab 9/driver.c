@@ -6,45 +6,54 @@
 #include "chain.h"
 
 
-// returns percent at which querying cost overtakes insertion cost
-double profile(table* t, char** books, int num_strings) {
-	for(double i = .1; i <= 2; i += .1) {
-		int queryingCost = lookupAll(t, books, books, num_strings, i);
-		printf("Insertion Cost: %d, Querying Cost: %d\n", t->insertionCost, queryingCost);
+int baseNumber = 5023;
+int tableSize = 5000;
 
-		if(queryingCost >= t->insertionCost) 
-			return i;
+
+char** parser(FILE* f) {
+	char* book[50000];
+	char* word = (char*) malloc(sizeof(char) * 30);
+	int num_strings = 0;
+
+	while(fscanf(f, "%s", word) != EOF) {
+		fgetc(f);
+		int flag = 0; // set if invalid string detected
+		for(int i = 0; i < strlen(word); i++) {
+			if(!((word[i] >= 'A' && word[i] <= 'Z') || (word[i] >= 'a' && word[i] <= 'z'))) {
+				flag = 1;
+				break;
+			}
+		}
+
+		if(!flag) {
+			num_strings++;
+			book[num_strings-1] = (char*) malloc(sizeof(char) * strlen(word));
+			strcpy(book[num_strings-1], word);
+		}
 	}
-	return 0.0;
+	free(word);
+	printf("Number of valid strings: %d\n", num_strings);
+	return book;
 }
 
 
 int main() {
 	FILE* f = fopen("aliceinwonderland.txt", "r");
-	char** books = parser(f);
-	table* t = createTable();
+	char** book = parser(f);
+	printf("Number of collisions: %d\n", collisionCount(book, 22698, baseNumber, tableSize));
 	fclose(f);
 
-	int num_strings = 22698;
-	int insertionCost = insertAll(t, books, num_strings);
-	printf("Table Size: %d\n", t->elementCount);
-	printf("Insertion Cost: %d\n", insertionCost);
+	Hashtable* h = createTable(tableSize);
+	printf("Insertion Cost: %d\n", insertAll(h, book));
 
-	// struct node* tmp = lookup(t, books, "to");
-	// printf("Querying Cost: %d\n", t->queryingCost);
+	struct node* tmp = lookup(h, book, "to");
+	printf("%s\n", book[82]);
 
-	int queryingCost = lookupAll(t, books, books, num_strings, 0.05);
-	printf("Querying Cost: %d\n", queryingCost);
+	printf("Querying Cost: %d\n", lookupAll(h, book, book, 22698, 0.001));
 
 	f = fopen("stopwords.txt", "r");
-	t = cleanup(f, t, books);
-	printf("Table Size: %d\n", t->elementCount);
+	h = cleanup(f, h, book);
+	printf("Number of elements: %d\n", h->elementCount);
 	fclose(f);
 
-
-	double percentage = profile(t, books, num_strings);
-	if (percentage == 0.0)
-		printf("No Optimal value in the range\n");
-	else
-		printf("Optimal Percentage Value: %lf\n", percentage); 
 }
