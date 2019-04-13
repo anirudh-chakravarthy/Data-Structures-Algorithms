@@ -6,30 +6,16 @@
 
 int main() {
 	struct node* root = NULL;
-
-	root = insert(root, 10);
-	root = insert(root, 4);
-	root = insert(root, 2);
 	root = insert(root, 5);
-	root = insert(root, 15);
+	root = insert(root, 3);
 	root = insert(root, 7);
-	root = insert(root, 11);
-	root = insert(root, 12);
-	root = insert(root, 14);
+	root = insert(root, 8);
 
-	inOrderTraversal(root);	
+	printf("Height: %d\n", height(root->right->right->right));
 
-	// struct node* tmp = find(root, 2);
-	// printf("Found: %d\n", tmp->value);
-	// tmp = find(root, 5);
-	// printf("%d\n", tmp->value);
+	inOrderTraversal(root);
 
-	// root = delete(root, 2);
+	// root = delete(root, 3);
 	// inOrderTraversal(root);
 
-	// printf("Second Min is: %d\n", findMin(root, 2));
-	rangeSearch(root, 7, 12);
-	for(int i = 0; i < num_elements; i++)
-		printf("%d ", arr[i]);
-	printf("\n");
 }
