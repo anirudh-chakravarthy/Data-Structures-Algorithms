@@ -4,8 +4,7 @@
 
 int hashFunction(char* string, int baseNumber, int tableSize);
 
-int collisionCount(char** strings, int baseNumber, int tableSize, int num_strings);
+int collisionCount(char** strings, int num_strings, int baseNumber, int tableSize);
 
-char** parser(FILE* f);
 
 #endif

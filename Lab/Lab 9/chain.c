@@ -6,124 +6,138 @@
 #include "chain.h"
 
 
-table* createTable() {
-	table* t = (table*) malloc(sizeof(table));
-	t->head = (struct node**) malloc(sizeof(struct node*) * 50000);
+Hashtable* createTable(int tableSize) {
+	Hashtable* t = (Hashtable*) malloc(sizeof(Hashtable));
+	t->head = (struct node**) malloc(sizeof(struct node*) * tableSize);
+	for(int i = 0; i < tableSize; i++) 
+		t->head[i] = NULL;
+
 	t->elementCount = 0;
 	t->insertionCost = 0;
 	t->queryingCost = 0;
 	return t;
-} 
+}
 
 
-table* insert(table* t, char** books, char* string, int index) {
+Hashtable* insert(Hashtable* t, char** book, int index, char** strings, int num_strings) {
 	int insertionCost = 0;
-	int hashValue = hashFunction(string, 53591, 50000);
-	struct node* tmp = t->head[hashValue];
-	int flag = 0;
 
-	// table has no entry at the specified index
-	if(tmp == NULL) {
-		struct node* newNode = (struct node*) malloc(sizeof(struct node));
-		newNode->key = index;
-		newNode->next = NULL;
-		newNode->count = 1;
+	for(int i = 0; i < num_strings; i++) {
+		int hashValue = hashFunction(strings[i], 5023, 5000);
+		struct node* tmp = t->head[hashValue];
 
-		t->head[hashValue] = newNode;
-		t->elementCount++;
-		printf("\tInserted %s\n\n", string);
-		return t;
-	}
+		while(tmp != NULL) {
+			if(strcmp(book[tmp->key], book[index]) == 0) {
+				tmp->count++;
+				t->insertionCost += insertionCost;
+				printf("Found: %s\n", book[index]);
+				return t;
+			}
+			insertionCost++;
 
-	// find whether entry exists in the table
-	while(tmp != NULL) {
-		if(strcmp(books[tmp->key], books[index]) == 0) {
-			tmp->count++;
-			flag = 1;
-			printf("\tEntry %s already exists %d times\n\n", string, tmp->count);
-			break;
+			// to store last node
+			if(tmp->next == NULL)
+				break;
+			tmp = tmp->next;
 		}
 
-		// if not found even in last node
-		if(tmp->next == NULL)
-			break;
-
-		tmp = tmp->next;
-		insertionCost++;
-	}
-
-	// entry doesn't exist so add it at end of chain
-	if(!flag) {
 		struct node* newNode = (struct node*) malloc(sizeof(struct node));
 		newNode->key = index;
-		newNode->next = NULL;
 		newNode->count = 1;
-		tmp->next = newNode;
+		newNode->next = NULL;
 		t->elementCount++;
-		printf("\tInserted %s at the end\n\n", string);
+		printf("Inserted: %s\n", book[index]);
+
+		if(t->head[hashValue] == NULL)
+			t->head[hashValue] = newNode;
+
+		else
+			tmp->next = newNode;
 	}
+
 	t->insertionCost += insertionCost;
 	return t;
 }
 
 
-int insertAll(table* t, char** books, int num_strings) {
-	for(int i = 0; i < num_strings; i++) {
-		printf("Inserting String no.: %d, String: %s\n", i, books[i]);
-		t = insert(t, books, books[i], i);
+int insertAll(Hashtable* t, char** book) {
+	int insertionCost = t->insertionCost;
+	for(int i = 0; i < 22698; i++) {
+		char** strings = (char**) malloc(sizeof(char*));
+		strings[0] = (char*) malloc(sizeof(char) * strlen((book[i]+1)));
+		strcpy(strings[0], book[i]);
+		t = insert(t, book, i, strings, 1);
 	}
-	return t->insertionCost;
+	return t->insertionCost - insertionCost;
 }
 
 
-struct node* lookup(table* t, char** books, char* string) {
-	int hashValue = hashFunction(string, 53591, 50000);
+struct node* lookup(Hashtable* t, char** book, char* string) {
+	int hashValue = hashFunction(string, 5023, 5000);
 	struct node* tmp = t->head[hashValue];
 	int queryingCost = 0;
-	
+
 	while(tmp != NULL) {
-		if(strcmp(books[tmp->key], string) == 0) {
+		if(strcmp(book[tmp->key], string) == 0) {
+			printf("Found: %s at index %d\n", string, tmp->key);
 			t->queryingCost += queryingCost;
-			return tmp;			
+			return tmp;
 		}
-		tmp = tmp->next;
 		queryingCost++;
+		tmp = tmp->next;
 	}
-	return NULL;
+
+	t->queryingCost += queryingCost;
+	return tmp;
 }
 
 
-int lookupAll(table* t, char** books, char** strings, int num_strings, double percent) {
-	num_strings = (int) (num_strings * percent);
+int lookupAll(Hashtable* t, char** book, char** strings, int num_strings, double m) {
 	t->queryingCost = 0;
-	for(int i = 0; i < num_strings; i++)
-		lookup(t, books, strings[i]);
+	num_strings = (int) (num_strings * m);
 
+	for(int i = 0; i < num_strings; i++) 
+		lookup(t, book, strings[i]);
+	
 	return t->queryingCost;
 }
 
 
-table* cleanup(FILE* f, table* t, char** books) {
-	char word[50];
+Hashtable* cleanup(FILE* f, Hashtable* t, char** book) {
+	char* word = (char*) malloc(sizeof(char) * 50);
+
 	while(fscanf(f, "%s\n", word) != EOF) {
-		int hashValue = hashFunction(word, 53591, 50000);
+		int hashValue = hashFunction(word, 5023, 5000);
 		struct node* tmp = t->head[hashValue];
 
-		// entry doesn't exist
+		// node is empty
 		if(tmp == NULL) {
-			printf("String %s not found\n", word);
+			printf("String: %s not found\n", word);
 			continue;
 		}
 
 		// only 1 node
 		if(tmp->next == NULL) {
-			if(strcmp(books[tmp->key], word) == 0) {
+			if(strcmp(book[tmp->key], word) == 0) {
 				tmp->count--;
-				printf("String %s deleted\n", word);
+				printf("String: %s deleted\n", word);
 				if(tmp->count == 0) {
 					t->elementCount--;
 					free(tmp);
 				}
+			}
+			printf("String: %s not found\n", word);
+			continue;
+		}
+
+		// deletion from head of list
+		if(strcmp(book[tmp->key], word) == 0) {
+			tmp->count--;
+			printf("String: %s deleted\n", word);
+			if(tmp->count == 0) {
+				t->elementCount--;
+				t->head[hashValue] = tmp->next;
+				free(tmp);
 			}
 			continue;
 		}
@@ -133,27 +147,24 @@ table* cleanup(FILE* f, table* t, char** books) {
 		int flag = 0;
 
 		while(tmp != NULL) {
-			if(strcmp(books[tmp->key], word) == 0) {
+			if(strcmp(book[tmp->key], word) == 0) {
 				tmp->count--;
 				flag = 1;
-				printf("String %s deleted\n", word);
+				printf("String: %s deleted\n", word);
 				if(tmp->count == 0) {
 					t->elementCount--;
 					prev->next = tmp->next;
 					free(tmp);
 				}
 				break;
-			}
-
-			tmp = tmp->next;
+			}	
 			prev = prev->next;
+			tmp = tmp->next;
 		}
 
-		// element not found
-		if(!flag) 
-			printf("String %s not found\n", word);
+		if(!flag)
+			printf("String: %s not found\n", word);
 	}
-
+	free(word);
 	return t;
 }
-
