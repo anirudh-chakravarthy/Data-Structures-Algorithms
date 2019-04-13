@@ -34,7 +34,10 @@ struct node* successor(struct node* root);
 void inOrderTraversal(struct node* root);
 
 // rotate AVL tree
-struct node* rotate(struct node* x, struct node* y, struct node* z);
+// struct node* rotate(struct node* x, struct node* y, struct node* z);
+
+// left rotate AVL tree
+struct node* leftRotate(struct node* x);
 
 // find kth smallest element in tree
 int findMin(struct node* root, int k);
